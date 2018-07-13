@@ -1,0 +1,17 @@
+hello   
+100/
+lup,	lac i ptr		/ load ac from address stored in pointer
+	cli			/ clear io register
+lu2,	rcl 6s			/ rotate combined ac + io reg 6 bits to the left
+				/ left 6 bits in ac move into right 6 bits of io reg
+	tyo			/ type out character in 6 right-most bits of io reg
+	sza			/ skip next instr if accumulator is zero
+	jmp lu2			/ otherwise do next character in current word
+	idx ptr			/ increment pointer to next word in message
+	sas end			/ skip next instr if pointer passes the end of message
+	jmp lup			/ otherwise do next word in message
+	hlt			/ halt machine
+ptr,	msg			/ pointer to current word in message
+msg,	text "FLG0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+end,	.         		/ sentinel for end of message
+start 100

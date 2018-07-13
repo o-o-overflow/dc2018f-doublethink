@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+TMPDIR=$(mktemp -d)
+trap "rm -rf $TMPDIR" EXIT
+
+cat prefix.rim $1 suffix.rim > $TMPDIR/run.rim
+cd $TMPDIR
+pdp1 <<< $'att ptr run.rim\nboot ptr\nquit\n'
