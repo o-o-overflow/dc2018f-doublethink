@@ -8,10 +8,9 @@ lu2,	rcl 6s			/ rotate combined ac + io reg 6 bits to the left
 	sza			/ skip next instr if accumulator is zero
 	jmp lu2			/ otherwise do next character in current word
 	idx ptr			/ increment pointer to next word in message
-	sas end			/ skip next instr if pointer passes the end of message
+	sas size		/ skip next instr if pointer passes the end of message
 	jmp lup			/ otherwise do next word in message
 	hlt			/ halt machine
-ptr,	msg			/ pointer to current word in message
-msg,	text "FLG0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-end,	.         		/ sentinel for end of message
+ptr,	0			/ pointer to current word in message
+size,	32			/ pointer to current word in message
 start 100

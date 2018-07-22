@@ -1,8 +1,25 @@
 #!/bin/bash -e
 
-TMPDIR=$(mktemp -d)
-trap "rm -rf $TMPDIR" EXIT
+(
+	# load the flag
+	i=0
+	for val in $($PLATDIR/../../convert.py -c3 256 $1)
+	do
+		printf "d %o \"$val\"\n" $(($i))
+		i=$(($i+1))
+	done
 
-cat prefix.rim $1 suffix.rim > $TMPDIR/run.rim
-cd $TMPDIR
-pdp1 <<< $'att ptr run.rim\nboot ptr\nquit\n'
+	# load the program
+	i=0
+	for val in $($PLATDIR/../../convert.py -c6 8 $2)
+	do
+		printf "d %o $val\n" $((64+$i))
+		i=$(($i+1))
+	done
+
+	echo run 100
+	echo exit
+) > commands.in
+
+#timeout -s9 10 
+pdp1 -q commands.in
