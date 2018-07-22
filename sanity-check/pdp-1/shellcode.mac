@@ -1,5 +1,6 @@
 hello   
-100/
+77/
+hlt	/ this hlt is here as a poor-man's breakpoint
 lup,	lac i ptr		/ load ac from address stored in pointer
 	cli			/ clear io register
 lu2,	rcl 6s			/ rotate combined ac + io reg 6 bits to the left
@@ -13,4 +14,4 @@ lu2,	rcl 6s			/ rotate combined ac + io reg 6 bits to the left
 	hlt			/ halt machine
 ptr,	0			/ pointer to current word in message
 size,	32			/ pointer to current word in message
-start 100
+start 77
