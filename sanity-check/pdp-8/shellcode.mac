@@ -1,0 +1,28 @@
+        *77
+        HLT
+        AIX1=10                 /SETUP AUTOINDEX REGISTER 1
+
+        CLA                     /CLEAR ACCUMULATOR
+        CLL                     /CLEAR AC LINK
+        TAD FLAGADDR
+        DCA AIX1                /STORE THAT IN AUTOINDEX REG 1
+
+LOOP,   NOP                     /TOP OF LOOP TO READ AND PRINT STRING
+                                /I USE A NOP JUST TO MAKE IT EASIER TO
+                                /INSERT CODE BELOW THE LABEL.
+        TAD I AIX1              /INCR ADDR IN AIX1, THEN LOAD AC FROM THAT
+        SNA                     /IF AC IS NOT ZERO, SKIP NEXT INSTRUCTION
+        HLT
+        JMS TTYO                /CALL OUTPUT ROUTINE
+        JMP LOOP                /REPEAT LOOP
+
+TTYO,   0                       /TTY OUTPUT ROUTINE. THE FIRST WORD OF
+                                /A SUBROUTINE MUST BE EMPTY (0) BECAUSE
+                                /THE JMS INSTRUCTION INSERTS THE RETURN
+                                /ADDR IN THIS WORD.
+        TLS                     /WRITE AC TO THE OUTPUT DEVICE (TTY)
+        TSF                     /IF TTY IS READY, SKIP NEXT INSTRUCTION.
+        JMP .-1                 /TTY IS NOT READY, SO CHECK AGAIN
+        CLA                     /CLEAR AC
+        JMP I TTYO              /RETURN TO CALLER
+FLAGADDR, 01336
