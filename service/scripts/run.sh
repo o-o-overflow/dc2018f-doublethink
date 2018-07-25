@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
 PLATFORM=$1
-PLATDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/$PLATFORM >/dev/null && pwd )"
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+PLATDIR=$SCRIPTDIR/../platforms/$PLATFORM
 shift
 
 if [ -z "$FLAG" ]
@@ -23,7 +24,7 @@ echo -n "$SHELLCODE" | base64 -d > shellcode
 
 echo "[**] Running $PLATFORM..."
 #env -i - PLATDIR=$PLATDIR timeout -s9 10 script -q result -c "$PLATDIR/run ./flag ./shellcode"
-env -i - PLATDIR=$PLATDIR script -q result -c "$PLATDIR/run ./flag ./shellcode"
+env -i - PLATDIR=$PLATDIR SCRIPTDIR=$SCRIPTDIR script -q result -c "$PLATDIR/run ./flag ./shellcode"
 echo "[**] $PLATFORM shellcode terminated. Checking results."
 cat result | tr 'A-Z' 'a-z' > results.lower
 if grep -q ${FLAG,,} results.lower

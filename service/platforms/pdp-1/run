@@ -1,6 +1,4 @@
 #!/bin/bash -e
 
-python $PLATDIR/../../drive_simh.py pdp-1 $1 $2 > commands.in
-
-#timeout -s9 10 
+python $SCRIPTDIR/drive_simh.py pdp-1 $1 $2 > commands.in
 pdp1 -q commands.in
