@@ -1,25 +1,6 @@
 #!/bin/bash -e
 
-(
-	# load the flag
-	i=0
-	for val in $($PLATDIR/../../convert.py -c3 256 $1)
-	do
-		printf "d %o \"$val\"\n" $(($i))
-		i=$(($i+1))
-	done
-
-	# load the program
-	i=0
-	for val in $($PLATDIR/../../convert.py -c6 8 $2)
-	do
-		printf "d %o $val\n" $((64+$i))
-		i=$(($i+1))
-	done
-
-	echo run 100
-	echo exit
-) > commands.in
+python $PLATDIR/../../drive_simh.py pdp-1 $1 $2 > commands.in
 
 #timeout -s9 10 
 pdp1 -q commands.in
