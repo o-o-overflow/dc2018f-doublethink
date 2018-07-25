@@ -21,4 +21,12 @@ macro1 $ASM
 
 DUMP=$(pdp1 commands.in | grep $':\t' | sed -e "s/.*:\t//" | tr -d '\n')
 
-python -c "open('$OUT', 'wb').write(hex(0$DUMP)[2:].replace('L','').decode('hex'))"
+# pad
+while [ $(((${#DUMP}*3) % 8)) -ne 0 ]
+do
+	echo "Padding..."
+	DUMP=${DUMP}0
+done
+echo Converting $DUMP
+
+python -c "open('$OUT', 'wb').write(hex(int(bin(0$DUMP)[2:].rjust(3*len('$DUMP'), '0'), 2))[2:].replace('L','').decode('hex'))"
