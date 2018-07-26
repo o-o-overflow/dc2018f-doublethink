@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-ASM=$1.mac
-BIN=$1.rim
-OUT=$2
+ASM=shellcode.mac
+BIN=shellcode.rim
+OUT=shellcode
 ADDR=64
 LEN=22
 
