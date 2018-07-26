@@ -5,9 +5,11 @@ Babelcode is a polyglot challenge.
 ## Architectures
 
 
-|	arch		|	CPU	|	deb	| ready	|		| fs access	|	bin	|			notes					|
+|	arch		|	CPU	|	deb	| ready	| Byte Width	| fs access	|	bin	|			notes					|
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| DEC PDP-1		| PDP-1		| simh		| [X]	|		|		|		|								|
+| DEC PDP-1		| PDP-1		| simh		| [X]	| 18		|		|		|								|
+| DEC PDP-8		| PDP-8		| simh		| [X]	| 12		|		|		|								|
+| IBM 1401		| IBM 1401	| simh		| [X]	| 7		|		|		|								|
 | 8051			|		| emu8051	|	|		|		|		|								|
 | Atari2600		|		| stella	|	|		|		|		|								|
 | Atari800		|		| atari800	|	|		|		|		|								|
@@ -17,7 +19,6 @@ Babelcode is a polyglot challenge.
 | DEC PDP-15		|		| simh		|	|		|		|		|								|
 | DEC PDP-4		|		| simh		|	|		|		|		|								|
 | DEC PDP-7		|		| simh		|	|		|		|		|								|
-| DEC PDP-8		|		| simh		|	|		|		|		|								|
 | DEC PDP-9		|		| simh		|	|		|		|		|								|
 | DEC VAX		|		| simh		|	|		|		|		|								|
 | Data General Nova	|		| simh		|	|		|		|		|								|
@@ -30,7 +31,6 @@ Babelcode is a polyglot challenge.
 | Hexagon		|		|		|	|		|		|		|								|
 | Honeywell 316		|		| simh		|	|		|		|		|								|
 | Honeywell 516		|		| simh		|	|		|		|		|								|
-| IBM 1401		|		| simh		|	|		|		|		|								|
 | IBM 1620 Model 1	|		| simh		|	|		|		|		|								|
 | IBM 1620 Model 2	|		| simh		|	|		|		|		|								|
 | IBM 3270		|		|		|	|		|		|		|								|
@@ -75,3 +75,7 @@ Babelcode is a polyglot challenge.
 | sh4			|		| qemu-static	|	|		|		|		|								|
 | sh4eb			|		| qemu-static	|	|		|		|		|								|
 | z/Architecture	|		| hercules	|	|		|		|		|								|
++-----------------------+---------------+---------------+-------+---------------+---------------+---------------+---------------------------------------------------------------+
+
+# useful links
+http://aei.pitt.edu/91112/1/2637.3.pdf

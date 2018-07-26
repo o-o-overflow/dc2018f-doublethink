@@ -2,10 +2,17 @@
 
 echo
 echo "[###] PDP-1..."
+(cd sanity-check/pdp-1 && ./dump.sh)
 service/scripts/run.sh pdp-1 OOO1234567890 sanity-check/pdp-1/shellcode
 
 echo
 echo "[###] PDP-8..."
+(cd sanity-check/pdp-8 && ./dump.sh)
 service/scripts/run.sh pdp-8 OOO1234567890 sanity-check/pdp-8/shellcode
+
+echo
+echo "[###] IBM-1401..."
+(cd sanity-check/ibm-1401 && ./dump.sh)
+service/scripts/run.sh ibm-1401 OOO1234567890 sanity-check/ibm-1401/shellcode
 
 echo "[###] SUCCESS!"

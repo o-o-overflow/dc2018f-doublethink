@@ -21,7 +21,7 @@ class Emu(object):
 		self.shellcode_bits = bin(int(self.shellcode.encode('hex'), 16))[2:].rjust(len(self.shellcode)*8, '0')
 
 	def _emit(self, *s): #pylint:disable=no-self-use
-		print ' '.join(s)
+		print ' '.join(str(e) for e in s)
 
 	def emit_flag(self):
 		raise NotImplementedError()
@@ -56,9 +56,24 @@ class EmuPDP8(Emu):
 			ow = oct(int(sw,2))[1:].replace('L','').rjust(4, '0')
 			self._emit('d', oct(i), ow)
 
+class EmuIBM1401(Emu):
+	def start(self):
+		self._emit('att lpt /dev/stdout')
+		self._emit('run 1')
+
+	def emit_flag(self):
+		for i, fw in enumerate(chunk_str(self.flag, 1), start=900):
+			self._emit('d', i, """'%s""" % fw)
+
+	def emit_shellcode(self):
+		for i, sw in enumerate(chunk_str(self.shellcode_bits, 7), start=0):
+			ow = oct(int(sw,2))[1:].replace('L','').rjust(3, '0')
+			self._emit('d', i, ow)
+
 platforms = {
 	'pdp-1': EmuPDP1,
 	'pdp-8': EmuPDP8,
+	'ibm-1401': EmuIBM1401,
 }
 
 if __name__ == '__main__':
