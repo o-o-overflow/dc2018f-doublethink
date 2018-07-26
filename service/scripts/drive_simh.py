@@ -39,7 +39,7 @@ class Emu(object):
 class EmuPDP1(Emu):
 	def emit_flag(self):
 		for i, fw in enumerate(chunk_str(self.flag, 3)):
-			self._emit('d', oct(i), '''"%s"''' % fw)
+			self._emit('d', oct(i), '''"%s"''' % fw.ljust(3))
 
 	def emit_shellcode(self):
 		for i, sw in enumerate(chunk_str(self.shellcode_bits, 18)):
@@ -70,10 +70,21 @@ class EmuIBM1401(Emu):
 			ow = oct(int(sw,2))[1:].replace('L','').rjust(3, '0')
 			self._emit('d', i, ow)
 
+class EmuNova(Emu):
+	def emit_flag(self):
+		for i, fw in enumerate(chunk_str(self.flag, 2), start=01337):
+			self._emit('d', oct(i), oct(int(fw.ljust(2).encode('hex'),16)))
+
+	def emit_shellcode(self):
+		for i, sw in enumerate(chunk_str(self.shellcode_bits, 16), start=0100):
+			ow = oct(int(sw,2))[1:].replace('L','').rjust(6, '0')
+			self._emit('d', oct(i), ow)
+
 platforms = {
 	'pdp-1': EmuPDP1,
 	'pdp-8': EmuPDP8,
 	'ibm-1401': EmuIBM1401,
+	'nova': EmuNova,
 }
 
 if __name__ == '__main__':

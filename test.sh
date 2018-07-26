@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 echo
 echo "[###] PDP-1..."
@@ -14,5 +14,10 @@ echo
 echo "[###] IBM-1401..."
 (cd sanity-check/ibm-1401 && ./dump.sh)
 service/scripts/run.sh ibm-1401 OOO1234567890 sanity-check/ibm-1401/shellcode
+
+echo
+echo "[###] DG Nova..."
+(cd sanity-check/nova && ./dump.sh)
+service/scripts/run.sh nova OOO1234567890 sanity-check/nova/shellcode
 
 echo "[###] SUCCESS!"

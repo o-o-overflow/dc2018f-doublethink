@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+python $SCRIPTDIR/drive_simh.py nova $1 $2 > commands.in
+dgnova -q commands.in

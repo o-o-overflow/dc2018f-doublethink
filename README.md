@@ -7,9 +7,10 @@ Babelcode is a polyglot challenge.
 
 |	arch		|	CPU	|	deb	| ready	| Byte Width	| fs access	|	bin	|			notes					|
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| DEC PDP-1		| PDP-1		| simh		| [X]	| 18		|		|		|								|
-| DEC PDP-8		| PDP-8		| simh		| [X]	| 12		|		|		|								|
-| IBM 1401		| IBM 1401	| simh		| [X]	| 7		|		|		| https://en.wikipedia.org/wiki/IBM\_1401			|
+| DEC PDP-1		| PDP-1		| simh		| [X]	| 18		| No		|		|								|
+| DEC PDP-8		| PDP-8		| simh		| [X]	| 12		| No		|		|								|
+| IBM 1401		| IBM 1401	| simh		| [X]	| 7		| No		|		| https://en.wikipedia.org/wiki/IBM\_1401			|
+| Data General Nova	| Nova		| simh		| [X]	| 16		| No		|		|								|
 | 8051			|		| emu8051	|	|		|		|		|								|
 | Atari2600		|		| stella	|	|		|		|		|								|
 | Atari800		|		| atari800	|	|		|		|		|								|
@@ -21,7 +22,6 @@ Babelcode is a polyglot challenge.
 | DEC PDP-7		|		| simh		|	|		|		|		|								|
 | DEC PDP-9		|		| simh		|	|		|		|		|								|
 | DEC VAX		|		| simh		|	|		|		|		|								|
-| Data General Nova	|		| simh		|	|		|		|		|								|
 | ESA/390		|		| hercules	|	|		|		|		|								|
 | Eclipse		|		| simh		|	|		|		|		|								|
 | GRI-909		|		| simh		|	|		|		|		|								|
@@ -78,4 +78,11 @@ Babelcode is a polyglot challenge.
 +-----------------------+---------------+---------------+-------+---------------+---------------+---------------+---------------------------------------------------------------+
 
 # useful links
+
+## 1401
 http://aei.pitt.edu/91112/1/2637.3.pdf
+
+## Nova
+http://users.rcn.com/crfriend/museum/doco/DG/Nova/base-instr.html
+https://ia800204.us.archive.org/22/items/usersguidefordat00ralp/usersguidefordat00ralp.pdf
+https://archive.org/stream/usersguidefordat00ralp/usersguidefordat00ralp_djvu.txt
