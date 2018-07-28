@@ -60,6 +60,16 @@ class EmuPDP8(Emu):
 			ow = oct(int(sw,2))[1:].replace('L','').rjust(4, '0')
 			self._emit('d', oct(i), ow)
 
+class EmuPDP10(Emu):
+	def emit_flag(self):
+		for i, fw in enumerate(chunk_str(self.flag, 1), start=01337):
+			self._emit('d', oct(i), """'%s""" % fw)
+
+	def emit_shellcode(self):
+		for i, sw in enumerate(chunk_str(self.shellcode_bits, 36), start=64):
+			ow = oct(int(sw,2))[1:].replace('L','').rjust(4, '0')
+			self._emit('d', oct(i), ow)
+
 class EmuIBM1401(Emu):
 	def start(self):
 		self._emit('att lpt /dev/stdout')
@@ -112,6 +122,7 @@ class EmuLGP30(Emu):
 platforms = {
 	'pdp-1': EmuPDP1,
 	'pdp-8': EmuPDP8,
+	'pdp-10': EmuPDP10,
 	'ibm-1401': EmuIBM1401,
 	'nova': EmuNova,
 	'lgp-30': EmuLGP30,

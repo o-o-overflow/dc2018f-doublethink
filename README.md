@@ -9,6 +9,7 @@ Babelcode is a polyglot challenge.
 |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | DEC PDP-1		| PDP-1		| simh		| [X]	| 18		| No		|		|								|
 | DEC PDP-8		| PDP-8		| simh		| [X]	| 12		| No		|		|								|
+| DEC PDP-10		| PDP-10	| simh		| [X]	| 36		| No		|		|								|
 | IBM 1401		| IBM 1401	| simh		| [X]	| 7		| No		|		| https://en.wikipedia.org/wiki/IBM\_1401			|
 | Data General Nova	| Nova		| simh		| [X]	| 16		| No		|		|								|
 | LGP-30		| LGP-30	| simh		| [X]	| 31		| No		|		|								|
@@ -16,7 +17,6 @@ Babelcode is a polyglot challenge.
 | Atari2600		|		| stella	|	|		|		|		|								|
 | Atari800		|		| atari800	|	|		|		|		|								|
 | Commodore 64		|		|		|	|		|		|		|								|
-| DEC PDP-10		|		| simh		|	|		|		|		|								|
 | DEC PDP-11		|		| simh		|	|		|		|		|								|
 | DEC PDP-15		|		| simh		|	|		|		|		|								|
 | DEC PDP-4		|		| simh		|	|		|		|		|								|
@@ -92,3 +92,6 @@ http://ed-thelen.org/comp-hist/lgp-30.html
 http://computermuseum.informatik.uni-stuttgart.de/dev_en/lgp30/lgp30_1.html
 http://bitsavers.trailing-edge.com/pdf/royalPrecision/LGP-30/LGP-30_Subroutine_Manual_Oct60.pdf
 http://obsolescenceguaranteed.blogspot.com/2016/06/using-simh-lgp-30-emulator.html
+
+## PDP-10
+http://pdp10.nocrew.org/docs/instruction-set/Jumps.html
