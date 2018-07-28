@@ -35,4 +35,9 @@ echo "[###] MIX..."
 (cd sanity-check/mix && ./dump.sh)
 service/scripts/run.sh mix OOO1234567890 sanity-check/mix/shellcode
 
+echo
+echo "[###] Hexagon..."
+#(cd sanity-check/hexagon && ./dump.sh)
+service/scripts/run.sh hexagon OOO1234567890 sanity-check/hexagon/shellcode
+
 echo "[###] SUCCESS!"
