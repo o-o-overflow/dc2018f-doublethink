@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+python $SCRIPTDIR/drive_simh.py lgp-30 $1 $2 > commands.in
+lgp -q commands.in

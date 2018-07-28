@@ -11,6 +11,7 @@ Babelcode is a polyglot challenge.
 | DEC PDP-8		| PDP-8		| simh		| [X]	| 12		| No		|		|								|
 | IBM 1401		| IBM 1401	| simh		| [X]	| 7		| No		|		| https://en.wikipedia.org/wiki/IBM\_1401			|
 | Data General Nova	| Nova		| simh		| [X]	| 16		| No		|		|								|
+| LGP-30		| LGP-30	| simh		| [X]	| 31		| No		|		|								|
 | 8051			|		| emu8051	|	|		|		|		|								|
 | Atari2600		|		| stella	|	|		|		|		|								|
 | Atari800		|		| atari800	|	|		|		|		|								|
@@ -46,9 +47,8 @@ Babelcode is a polyglot challenge.
 | Interdata 8/16E	|		| simh		|	|		|		|		|								|
 | Interdata 8/32	|		| simh		|	|		|		|		|								|
 | Interdata 80		|		| simh		|	|		|		|		|								|
-| KC86			|		| kcemu		|	|		|		|		|								|
+| KC85			|		| kcemu		|	|		|		|		|								|
 | LGP-21		|		| simh		|	|		|		|		|								|
-| LGP-30		|		| simh		|	|		|		|		|								|
 | MIPS R2000		|		| spim		|	|		|		|		|								|
 | MIPS R3000		|		| spim		|	|		|		|		|								|
 | MSX			|		| openmsx	|	|		|		|		|								|
@@ -86,3 +86,9 @@ http://aei.pitt.edu/91112/1/2637.3.pdf
 http://users.rcn.com/crfriend/museum/doco/DG/Nova/base-instr.html
 https://ia800204.us.archive.org/22/items/usersguidefordat00ralp/usersguidefordat00ralp.pdf
 https://archive.org/stream/usersguidefordat00ralp/usersguidefordat00ralp_djvu.txt
+
+## LGP-30
+http://ed-thelen.org/comp-hist/lgp-30.html
+http://computermuseum.informatik.uni-stuttgart.de/dev_en/lgp30/lgp30_1.html
+http://bitsavers.trailing-edge.com/pdf/royalPrecision/LGP-30/LGP-30_Subroutine_Manual_Oct60.pdf
+http://obsolescenceguaranteed.blogspot.com/2016/06/using-simh-lgp-30-emulator.html

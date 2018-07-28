@@ -20,4 +20,9 @@ echo "[###] DG Nova..."
 (cd sanity-check/nova && ./dump.sh)
 service/scripts/run.sh nova OOO1234567890 sanity-check/nova/shellcode
 
+echo
+echo "[###] LGP-30..."
+(cd sanity-check/lgp-30 && ./dump.sh)
+service/scripts/run.sh lgp-30 OOO1234567890 sanity-check/lgp-30/shellcode
+
 echo "[###] SUCCESS!"
