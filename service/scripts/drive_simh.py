@@ -9,6 +9,10 @@ def chunk_str(s, chunksize):
 	return [ s[i:i+chunksize] for i in range(0, len(s), chunksize) ]
 
 def hex2int(s):
+	return int(s, 16)
+def bin2int(s):
+	return int(s, 2)
+def bytes2int(s):
 	return int(s.encode('hex'), 16)
 def bin2hex(s):
 	return hex(int(s,2))[2:].strip('L')
@@ -34,13 +38,50 @@ class Emu(object):
 		raise NotImplementedError()
 
 	def start(self):
+		raise NotImplementedError()
+
+	def quit(self):
+		raise NotImplementedError()
+
+class EmuSimh(Emu): #pylint:disable=abstract-method
+	def start(self):
 		self._emit('run 100')
 
 	def quit(self):
 		self._emit('exit')
 
+class PlatformMIX(Emu):
+	LETTERS = dict(
+		[ (c,n) for n,c in enumerate(' ABCDEFGHI', start=0) ] +
+		[ (c,n) for n,c in enumerate('JKLMNOPQR', start=11) ] +
+		[ (c,n) for n,c in enumerate('STUVWXYZ', start=22) ] +
+		[ (c,n) for n,c in enumerate('0123456789', start=30) ] +
+		[ (c,n) for n,c in enumerate('.,()+-*/=$', start=40) ] +
+		[ (c,n) for n,c in enumerate("<>@;:'", start=50) ]
+	)
+
+	@staticmethod
+	def _mixtoint(a):
+		return sum(n*64**e for e,n in enumerate(reversed(a)))
+
+	def emit_flag(self):
+		for i, fw in enumerate(chunk_str(self.flag, 5), start=3137):
+			val = self._mixtoint([ PlatformMIX.LETTERS[c] for c in fw.ljust(5, ' ') ])
+			self._emit('smem %d %d' % (i, val))
+
+	def emit_shellcode(self):
+		for i, sw in enumerate(chunk_str(self.shellcode_bits, 30), start=100):
+			ow = bin2int(sw)
+			self._emit('smem %d %d' % (i, ow))
+
+	def start(self):
+		self._emit('run')
+
+	def quit(self):
+		self._emit('quit')
+
 #pylint:disable=abstract-method
-class EmuPDP1(Emu):
+class PlatformPDP1(EmuSimh):
 	def emit_flag(self):
 		for i, fw in enumerate(chunk_str(self.flag, 3)):
 			self._emit('d', oct(i), '''"%s"''' % fw.ljust(3))
@@ -50,7 +91,7 @@ class EmuPDP1(Emu):
 			ow = oct(int(sw,2))[1:].replace('L','').rjust(6, '0')
 			self._emit('d', oct(64+i), ow)
 
-class EmuPDP8(Emu):
+class PlatformPDP8(EmuSimh):
 	def emit_flag(self):
 		for i, fw in enumerate(chunk_str(self.flag, 1), start=01337):
 			self._emit('d', oct(i), """'%s""" % fw)
@@ -60,7 +101,7 @@ class EmuPDP8(Emu):
 			ow = oct(int(sw,2))[1:].replace('L','').rjust(4, '0')
 			self._emit('d', oct(i), ow)
 
-class EmuPDP10(Emu):
+class PlatformPDP10(EmuSimh):
 	def emit_flag(self):
 		for i, fw in enumerate(chunk_str(self.flag, 1), start=01337):
 			self._emit('d', oct(i), """'%s""" % fw)
@@ -70,7 +111,7 @@ class EmuPDP10(Emu):
 			ow = oct(int(sw,2))[1:].replace('L','').rjust(4, '0')
 			self._emit('d', oct(i), ow)
 
-class EmuIBM1401(Emu):
+class PlatformIBM1401(EmuSimh):
 	def start(self):
 		self._emit('att lpt /dev/stdout')
 		self._emit('run 1')
@@ -84,7 +125,7 @@ class EmuIBM1401(Emu):
 			ow = oct(int(sw,2))[1:].replace('L','').rjust(3, '0')
 			self._emit('d', i, ow)
 
-class EmuNova(Emu):
+class PlatformNova(EmuSimh):
 	def emit_flag(self):
 		for i, fw in enumerate(chunk_str(self.flag, 2), start=01337):
 			self._emit('d', oct(i), oct(int(fw.ljust(2).encode('hex'),16)))
@@ -94,7 +135,7 @@ class EmuNova(Emu):
 			ow = oct(int(sw,2))[1:].replace('L','').rjust(6, '0')
 			self._emit('d', oct(i), ow)
 
-class EmuLGP30(Emu):
+class PlatformLGP30(EmuSimh):
 	@staticmethod
 	def _make_addr(i):
 		return "%02d%02d" % (i/64, i%64)
@@ -111,7 +152,7 @@ class EmuLGP30(Emu):
 
 	def emit_flag(self):
 		for i, c in enumerate(chunk_str(self.flag, 1), start=13*64+37):
-			self._emit('d', self._make_addr(i), EmuLGP30.LETTERS[c])
+			self._emit('d', self._make_addr(i), PlatformLGP30.LETTERS[c])
 
 	def emit_shellcode(self):
 		for i, sw in enumerate(chunk_str(self.shellcode_bits, 31), start=0100):
@@ -120,12 +161,13 @@ class EmuLGP30(Emu):
 			self._emit('d', self._make_addr(i), bin2hex(sw+'0').zfill(8))
 
 platforms = {
-	'pdp-1': EmuPDP1,
-	'pdp-8': EmuPDP8,
-	'pdp-10': EmuPDP10,
-	'ibm-1401': EmuIBM1401,
-	'nova': EmuNova,
-	'lgp-30': EmuLGP30,
+	'pdp-1': PlatformPDP1,
+	'pdp-8': PlatformPDP8,
+	'pdp-10': PlatformPDP10,
+	'ibm-1401': PlatformIBM1401,
+	'nova': PlatformNova,
+	'lgp-30': PlatformLGP30,
+	'mix': PlatformMIX,
 }
 
 if __name__ == '__main__':

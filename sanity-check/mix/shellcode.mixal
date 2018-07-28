@@ -1,0 +1,5 @@
+TERM    EQU    19          console device no. (19 = typewriter)
+        ORIG   100        start address
+START   OUT    3137(TERM)   output data at address MSG
+        HLT                halt execution
+        END    START       end of program

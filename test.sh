@@ -30,4 +30,9 @@ echo "[###] LGP-30..."
 (cd sanity-check/lgp-30 && ./dump.sh)
 service/scripts/run.sh lgp-30 OOO1234567890 sanity-check/lgp-30/shellcode
 
+echo
+echo "[###] MIX..."
+(cd sanity-check/mix && ./dump.sh)
+service/scripts/run.sh mix OOO1234567890 sanity-check/mix/shellcode
+
 echo "[###] SUCCESS!"

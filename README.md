@@ -75,6 +75,7 @@ Babelcode is a polyglot challenge.
 | sh4			|		| qemu-static	|	|		|		|		|								|
 | sh4eb			|		| qemu-static	|	|		|		|		|								|
 | z/Architecture	|		| hercules	|	|		|		|		|								|
+| MIX			|		| mdk		|	|		|		|		|								|
 +-----------------------+---------------+---------------+-------+---------------+---------------+---------------+---------------------------------------------------------------+
 
 # useful links
@@ -95,3 +96,4 @@ http://obsolescenceguaranteed.blogspot.com/2016/06/using-simh-lgp-30-emulator.ht
 
 ## PDP-10
 http://pdp10.nocrew.org/docs/instruction-set/Jumps.html
+https://esolangs.org/wiki/MIX_(Knuth)#Character_codes

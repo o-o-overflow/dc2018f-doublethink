@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+python $SCRIPTDIR/drive_simh.py mix $1 $2 > commands.in
+cat commands.in | mixvm
