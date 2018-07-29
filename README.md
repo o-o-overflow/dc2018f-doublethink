@@ -14,6 +14,7 @@ Babelcode is a polyglot challenge.
 | Data General Nova	| Nova		| simh		| [X]	| 16		| 16		| No		|		|								|
 | LGP-30		| LGP-30	| simh		| [X]	| 31		| 31		| No		|		|								|
 | MIX			| MIX		| mdk		| [X]	| 6		| 30		| No		|		|								|
+| MMIX			| MMIX		| 		| [X]	| 6		| 32		| Yes		|		|								|
 | Hexagon		| Hexagon	|		| [X]	| 8		| 32		| Yes   	|		|								|
 | 8051			|		| emu8051	|	|		| 		|       	|		|								|
 | Atari2600		|		| stella	|	|		| 		|       	|		|								|

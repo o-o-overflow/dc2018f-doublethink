@@ -80,6 +80,22 @@ class PlatformMIX(Emu):
 	def quit(self):
 		self._emit('quit')
 
+class PlatformMMIX(Emu):
+	def emit_flag(self):
+		pass
+
+	def emit_shellcode(self):
+		for i, sw in enumerate(chunk_str(self.shellcode_bits, 64)):
+			ow = bin2int(sw)
+			self._emit('M%x=%d' % (0x200+8*i, ow))
+
+	def start(self):
+		self._emit('@200')
+		self._emit('c')
+
+	def quit(self):
+		self._emit('quit')
+
 #pylint:disable=abstract-method
 class PlatformPDP1(EmuSimh):
 	def emit_flag(self):
@@ -168,6 +184,7 @@ platforms = {
 	'nova': PlatformNova,
 	'lgp-30': PlatformLGP30,
 	'mix': PlatformMIX,
+	'mmix': PlatformMMIX,
 }
 
 if __name__ == '__main__':

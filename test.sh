@@ -40,4 +40,9 @@ echo "[###] Hexagon..."
 #(cd sanity-check/hexagon && ./dump.sh)
 service/scripts/run.sh hexagon OOO1234567890 sanity-check/hexagon/shellcode
 
+echo
+echo "[###] MMIX..."
+(cd sanity-check/mmix && ./dump.sh)
+service/scripts/run.sh mmix OOO1234567890 sanity-check/mmix/shellcode
+
 echo "[###] SUCCESS!"
