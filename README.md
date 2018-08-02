@@ -17,6 +17,7 @@ Babelcode is a polyglot challenge.
 | MMIX			| MMIX		| 		| [X]	| 6		| 32		| Yes		|		|								|
 | Hexagon		| Hexagon	|		| [X]	| 8		| 32		| Yes   	|		|								|
 | RISC-V		| RISCV		|		| [X]	| 8		| 64		| Yes   	|		|								|
+| cLEMENCy		| cLEMENCy	|		| [X]	| 9		| 27		| No	   	|		|								|
 | 8051			|		| emu8051	|	|		| 		|       	|		|								|
 | Atari2600		|		| stella	|	|		| 		|       	|		|								|
 | Atari800		|		| atari800	|	|		| 		|       	|		|								|

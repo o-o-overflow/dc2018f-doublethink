@@ -50,4 +50,9 @@ echo "[###] MMIX..."
 (cd sanity-check/risc-v && ./dump.sh)
 service/scripts/run.sh risc-v OOO1234567890 sanity-check/risc-v/shellcode
 
+echo
+echo "[###] cLEMENCy..."
+(cd sanity-check/clemency && ./dump.sh)
+service/scripts/run.sh clemency OOO1234567890 sanity-check/clemency/shellcode
+
 echo "[###] SUCCESS!"
