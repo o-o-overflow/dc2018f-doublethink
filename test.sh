@@ -45,4 +45,9 @@ echo "[###] MMIX..."
 (cd sanity-check/mmix && ./dump.sh)
 service/scripts/run.sh mmix OOO1234567890 sanity-check/mmix/shellcode
 
+echo
+echo "[###] MMIX..."
+(cd sanity-check/risc-v && ./dump.sh)
+service/scripts/run.sh risc-v OOO1234567890 sanity-check/risc-v/shellcode
+
 echo "[###] SUCCESS!"
