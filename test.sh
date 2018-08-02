@@ -6,6 +6,11 @@ echo "[###] amd64..."
 service/scripts/run.sh amd64 OOO1234567890 sanity-check/amd64/shellcode
 
 echo
+echo "[###] arm64..."
+(cd sanity-check/arm64 && ./dump.sh)
+service/scripts/run.sh arm64 OOO1234567890 sanity-check/arm64/shellcode
+
+echo
 echo "[###] PDP-1..."
 (cd sanity-check/pdp-1 && ./dump.sh)
 service/scripts/run.sh pdp-1 OOO1234567890 sanity-check/pdp-1/shellcode
