@@ -20,6 +20,7 @@ Babelcode is a polyglot challenge.
 | cLEMENCy		| cLEMENCy	|		| [X]	| 9		| 27		| No	   	|		|								|
 | AMD64			| AMD64		|		| [X]	| 8		| 64		| Yes	   	|		|								|
 | ARM64			| ARM64		|		| [X]	| 8		| 64		| Yes	   	|		|								|
+| MIPS(el)		| MIPS(el)	|		| [X]	| 8		| 32		| Yes	   	|		|								|
 | 8051			|		| emu8051	|	|		| 		|       	|		|								|
 | Atari2600		|		| stella	|	|		| 		|       	|		|								|
 | Atari800		|		| atari800	|	|		| 		|       	|		|								|
