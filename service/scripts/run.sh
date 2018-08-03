@@ -1,4 +1,10 @@
-#!/bin/bash -e
+#!/bin/bash
+
+GRN=$(tput setaf 6 2>/dev/null)
+RST=$(tput sgr0 2>/dev/null)
+RED=$(tput setaf 1 2>/dev/null)
+
+set -e
 
 PLATFORM=$1
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
@@ -17,21 +23,29 @@ then
 fi
 
 TMPDIR=$(mktemp -d)
-#trap "echo [**] Cleaning up...; rm -rf $TMPDIR" EXIT
+trap 'echo "$GRN[**] Cleaning up...$RST"; rm -rf $TMPDIR' EXIT
 cd $TMPDIR
+chmod 711 .
 echo "$FLAG" > flag
 echo -n "$SHELLCODE" | base64 -d > shellcode
 
-echo "[**] Running $PLATFORM..."
-#env -i - PLATDIR=$PLATDIR timeout -s9 10 script -q result -c "$PLATDIR/run ./flag ./shellcode"
-env -i - PLATDIR=$PLATDIR SCRIPTDIR=$SCRIPTDIR script -q result -c "$PLATDIR/run ./flag ./shellcode"
-echo "[**] $PLATFORM shellcode terminated. Checking results."
+echo
+echo
+echo
+echo "$GRN[**] Running $PLATFORM...$RST"
+script -q result -c "sudo -u nobody SCRIPTDIR=$SCRIPTDIR PLATDIR=$PLATDIR $PLATDIR/run ./flag ./shellcode" &
+sleep 10 &
+wait -n
+( ( killall sleep; sudo killall -9 -u nobody; killall script ) || true ) 2>/dev/null
+
+
+echo "$GRN[**] $PLATFORM shellcode terminated. Checking results.$RST"
 cat result | tr 'A-Z' 'a-z' > results.lower
 if grep -q ${FLAG,,} results.lower
 then
-	echo "[:)] FLAG GOTTEN!"
+	echo "$GRN[:)] FLAG GOTTEN!$RST"
 	exit 0
 else
-	echo "[:(] NO FLAG!"
+	echo "$RED[:(] NO FLAG!$RST"
 	exit 1
 fi

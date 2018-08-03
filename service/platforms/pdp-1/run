@@ -1,4 +1,3 @@
 #!/bin/bash -e
 
-python $SCRIPTDIR/drive_simh.py pdp-1 $1 $2 > commands.in
-pdp1 -q commands.in
+python $SCRIPTDIR/drive_simh.py pdp-1 $1 $2 | pdp1 -q /dev/stdin
