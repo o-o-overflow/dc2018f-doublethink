@@ -1,7 +1,17 @@
 from ubuntu:18.04
 
-run apt-get update
-run apt-get install -y qemu-user simh build-essential
-# for c-sky
-run apt-get install -y flex libmpfr-dev libmpc-dev
-run apt-get build-dep -y qemu-user
+run sed -i -e "s/# deb-src/deb-src/" /etc/apt/sources.list
+run apt update
+run apt install -y qemu-user simh python sudo
+run apt install -y xinetd
+#run apt install -y vim qemu-user flex simh build-essential qemu-user flex simh build-essential git python sudo curl git bison libmpfr-dev libmpc-dev libgmp-dev gawk
+#run apt install -y autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler pkg-config libexpat-dev
+#run apt install -y python-bitstring
+#run apt install -y libc6-arm64-cross
+#run apt build-dep qemu-user gcc gdb
+
+
+COPY service.conf /service.conf
+COPY platforms /platforms
+COPY scripts /scripts
+CMD ["/usr/sbin/xinetd", "-filelog", "-", "-dontfork", "-f", "/service.conf"]
