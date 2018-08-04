@@ -20,6 +20,5 @@ run apt install -y guile-2.2-libs mdk
 
 COPY service.conf /service.conf
 COPY platforms /platforms
-COPY platforms/mix/mdk /usr/share/mdk
 COPY scripts /scripts
 CMD ["/usr/sbin/xinetd", "-filelog", "-", "-dontfork", "-f", "/service.conf"]
