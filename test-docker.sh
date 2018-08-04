@@ -25,7 +25,7 @@ SLA_SCRIPTS="/check.py"
 
 
 # TODO: SERVICE_PORT=$(get_info.py service_port)
-SERVICE_PORT=9813
+SERVICE_PORT=9318
 
 # TODO: Set new flag before testing
 
