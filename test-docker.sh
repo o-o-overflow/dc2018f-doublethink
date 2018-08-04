@@ -41,6 +41,8 @@ done
 for script in $SLA_SCRIPTS
 do
 	docker run -it --rm "$INTERACTION_TAG" "$script" "$IP" "$SERVICE_PORT"
+	echo "SCORE:"
+	docker exec $SERVICE_ID cat /score
 done
 
 docker kill "$SERVICE_ID"

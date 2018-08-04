@@ -107,17 +107,22 @@ def main(scorefile):
 	raw_input('> ')
 	flag = "OOO" + ''.join(random.choice(string.digits) for _ in range(10))
 
-	controlled = [ ]
-	while len(controlled) < max_control:
-		choice = choose_arch(controlled)
-		if choice and fire(choice, flag, shellcode):
-			print "You have obtained control over %s." % choice
-			controlled.append(choice)
-			print "You control:", ' '.join(controlled)
+	try:
+		controlled = [ ]
+		while len(controlled) < max_control:
+			choice = choose_arch(controlled)
+			if choice and fire(choice, flag, shellcode):
+				print "You have obtained control over %s." % choice
+				controlled.append(choice)
+				print "You control:", ' '.join(controlled)
+			else:
+				print "You have reached the limits of your control."
+				break
 		else:
-			break
+			print "There is nothing else to control!"
+	except Exception:
+		print "Something went wrong. Big Brother is watching you."
 
-	print "It is done."
 	print "You achieved control over %d architectures." % len(controlled)
 	if len(controlled) == 0:
 		print "If you want to keep a secret, you must also hide it from yourself."
@@ -128,10 +133,7 @@ def main(scorefile):
 	else:
 		print "The Revolution will be complete when the language is perfect."
 
-	json.dump({
-		'score': len(controlled),
-		'comment': controlled
-	}, open(scorefile, 'w'))
+	open(scorefile, 'w').write(str(len(controlled)) + '\n' + "Control attained: " + ' '.join(controlled) + '\n')
 
 if __name__ == '__main__':
 	main(scorefile=(sys.argv[1] if len(sys.argv) > 1 else '/score'))

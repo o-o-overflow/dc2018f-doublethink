@@ -14,11 +14,13 @@ run apt install -y libc6-mipsel-cross
 run apt install -y device-tree-compiler
 
 # for mix
-run apt install -y guile-2.2-libs mdk
+run apt install -y guile-2.2-libs
 #run apt build-dep qemu-user gcc gdb
 
 
 COPY service.conf /service.conf
 COPY platforms /platforms
+COPY fucking-mdk /nonexistent/.mdk
+COPY fucking-usr-mdk /usr/share/mdk
 COPY scripts /scripts
 CMD ["/usr/sbin/xinetd", "-filelog", "-", "-dontfork", "-f", "/service.conf"]
