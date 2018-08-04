@@ -105,7 +105,7 @@ def main(scorefile):
 
 	print "Press enter when ready."
 	raw_input('> ')
-	flag = "OOO" + ''.join(random.choice(string.digits) for _ in range(13))
+	flag = "OOO" + ''.join(random.choice(string.digits) for _ in range(10))
 
 	controlled = [ ]
 	while len(controlled) < max_control:
