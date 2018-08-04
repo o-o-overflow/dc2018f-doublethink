@@ -14,7 +14,7 @@ run apt install -y libc6-mipsel-cross
 run apt install -y device-tree-compiler
 
 # for mix
-run apt install -y guile-2.2-libs
+run apt install -y guile-2.2-libs mdk
 #run apt build-dep qemu-user gcc gdb
 
 
