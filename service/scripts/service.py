@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import subprocess
+import hashlib
 import random
 import base64
 import string
@@ -10,7 +11,7 @@ import os
 
 available = {
 	'past': { 'lgp-30', 'pdp-1', 'pdp-8', 'pdp-10', 'mix', 'ibm-1401', 'nova' },
-	'present': { 'amd64', 'arm64', 'mips' },
+	'present': { 'amd64', 'arm64', 'mipsel' },
 	'future': { 'risc-v', 'hexagon', 'mmix', 'clemency' }
 }
 all_available = set.union(*available.values())
@@ -24,6 +25,8 @@ descriptions = {
 	'mix': "Donald Knuth, a faithful servant of the party, created the Managerial Interactive X.",
 	'amd86': "The Advanced Management Design allowed the Party to controll undesirables."
 }
+
+shellcode = ""
 
 def choose_arch(controlled):
 	print ""
@@ -40,7 +43,6 @@ def choose_arch(controlled):
 
 	if num_present == 0:
 		print "You cannot control the past without controlling the present, and your influence on the future depends on your influence on the past."
-		print "And yet, you control nothing."
 		print "The party controls all."
 		print "Choose your actions wisely."
 		print "You may attempt to exert control over the following present architectures:", ' '.join(sorted(new_present))
@@ -53,20 +55,45 @@ def choose_arch(controlled):
 		print "As you control the gloried past, you may attempt to exert control over the architectures of our bright future:", ' '.join(sorted(new_future))
 		can_choose |= new_future
 
-	choice = raw_input().strip()
+	print "What will you control next? "
+	choice = raw_input("> ").strip()
+
+	# this is for thorough testing --- there is no trick here. do not waste your time with this during the CTF
+	# if somehow find a way to you break it, the Order will patch the service to remove it and revoke any resulting points
+	choice = ooo_testing_postprocess_choice(choice, controlled)
+
 	assert choice in can_choose
 	return choice
 
-def fire(arch, flag, shellcode):
+def ooo_testing_postprocess_choice(choice, controlled):
+	if hashlib.sha256(choice).hexdigest() == '23d2ef6d6c26cb92a32d198568731530b767fac9bdd669d159115a0de8b82cc4':
+		input_shellcode()
+		return choose_arch(controlled)
+	else:
+		return choice
+
+def fire(arch, flag, arch_shellcode):
 	cmd = [
 		os.path.join(os.path.dirname(__file__), 'run.sh'),
 		arch,
 	]
 	env = {
 		'FLAG': flag,
-		'SHELLCODE': ''.join(base64.encodestring(shellcode).split())
+		'SHELLCODE': ''.join(base64.encodestring(arch_shellcode).split())
 	}
-	return subprocess.Popen(cmd, env=env).wait() == 0
+	success = subprocess.Popen(cmd, env=env).wait() == 0
+	print "Checking for control..."
+	return success
+
+def input_shellcode():
+	global shellcode
+
+	print "Shellcode length:"
+	r = int(raw_input('> ').strip())
+	shellcode = ""
+	print "Shellcode:"
+	while len(shellcode) < r:
+		shellcode += sys.stdin.read(r-len(shellcode))
 
 def main(scorefile):
 	print "Who controls the past controls the future."
@@ -74,21 +101,16 @@ def main(scorefile):
 	print ""
 	print "Take control."
 	print ""
-	print "Shellcode length:"
-	r = int(raw_input().strip())
-	sc = ""
-	print "Shellcode:"
-	while len(sc) < r:
-		sc += sys.stdin.read(r-len(sc))
+	input_shellcode()
 
 	print "Press enter when ready."
-	raw_input()
+	raw_input('> ')
 	flag = "OOO" + ''.join(random.choice(string.digits) for _ in range(13))
 
 	controlled = [ ]
 	while len(controlled) < max_control:
 		choice = choose_arch(controlled)
-		if choice and fire(choice, flag, sc):
+		if choice and fire(choice, flag, shellcode):
 			print "You have obtained control over %s." % choice
 			controlled.append(choice)
 			print "You control:", ' '.join(controlled)

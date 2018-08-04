@@ -16,12 +16,12 @@ cd interaction && docker build . -t "$INTERACTION_TAG" && cd -
 SERVICE_ID=$(docker run -d --rm "$SERVICE_TAG")
 
 # TODO: EXPLOIT_SCRIPTS=$(get_info.py exploit_scripts)
-EXPLOIT_SCRIPTS="/exploit1.py /exploit2.sh"
+EXPLOIT_SCRIPTS=""
 
 
 # TODO: SLA_SCRIPTS=$(get_info.py sla_scripts)
 #SLA_SCRIPTS="/check1.py /check2.sh"
-SLA_SCRIPTS="/check2.sh"
+SLA_SCRIPTS="/check.py"
 
 
 # TODO: SERVICE_PORT=$(get_info.py service_port)
@@ -40,7 +40,7 @@ done
 
 for script in $SLA_SCRIPTS
 do
-	RESULT=$(docker run -it --rm "$INTERACTION_TAG" "$script" "$IP" "$SERVICE_PORT")
+	docker run -it --rm "$INTERACTION_TAG" "$script" "$IP" "$SERVICE_PORT"
 done
 
 docker kill "$SERVICE_ID"

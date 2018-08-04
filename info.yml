@@ -1,14 +1,13 @@
 # This is the service's name
-service_name: "template"
-service_port: 5000
+service_name: "doublethink"
+service_port: 9318
 
 # Type can be normal or king_of_the_hill
-type: normal
+type: king_of_the_hill
 
 # All paths relative from `service` directory
 public_files:
-  - /src/template.py
-  - /src/config.py
+  - /
 
 # Patch policy
 patch_policy:
@@ -29,24 +28,21 @@ score_location:
   - /score
 
 authors:
-  - adamd
-  - reyammer
-description: "This is a template service."
+  - zardus
+description: "How many conflicting ideas can you hold in one thought?"
 
 # Directories for the next two are relative to the `interactions` docker container
 
 # Exploit scripts must output the flag using "FLAG: <FLAG>" and exit with 0 if the flag was captured correctly. 
 exploit_scripts:
-  - /exploit1.py
-  - /exploit2.sh
+  - /exploit.py
 
 # SLA scripts are run every tick against the service.
 # This means that SLA traffic will be included in the PCAP dumps to teams
 # Exit with 0 if the service is correct, anything else if it is not.
 # If you want to surface an error message on patch submission, output "ERROR: <ERROR MESSAGE>"
 sla_scripts:
-  - /check1.py
-  - /check2.sh
+  - /check.py
 
 # Test scripts are optional.
 # If you have test scripts, they will be used on patch validation, so they can do hard-core service assessment.
@@ -54,8 +50,7 @@ sla_scripts:
 # If you want to surface an error message on patch submission, output "ERROR: <ERROR MESSAGE>"
 # If you do not include test_scripts, the sla_scripts will be used to validate patches
 test_scripts:
-  - /check1.py
-  - /check2.sh
+  - /check.py
 
 
   
@@ -63,14 +58,7 @@ test_scripts:
 # Service executables and invocation environments
 executables:
   # Path is relative to the `service`
-  - path: /service_exe1
+  - path: /scripts/service
     # Invocation assumes that CWD is `service`
-    arguments: ["./service_exe1", "arg1", "arg2"]
+    arguments: ["/scripts/service", "/score"]
     environment:
-      key1: value1
-      key2: value2
-  - path: /service_exe2
-    arguments: ["./service_exe2", "arg1", "arg2"]
-    environment:
-      key1: value1
-      key2: value2
