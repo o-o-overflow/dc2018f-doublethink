@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
-../../service/platforms/mmix/mmixal -l shellcode.lst shellcode.mms
-cat <<END | ../../service/platforms/mmix/mmix -i shellcode.mmo | grep M8 | sed -e "s/.*#//" | parallel "printf '%016x' 0x{}" | xxd -r -p > shellcode
+../../../service/platforms/mmix/mmixal -l shellcode.lst shellcode.mms
+cat <<END | ../../../service/platforms/mmix/mmix -i shellcode.mmo | grep M8 | sed -e "s/.*#//" | parallel "printf '%016x' 0x{}" | xxd -r -p > shellcode
 M200#
 M208#
 M210#
