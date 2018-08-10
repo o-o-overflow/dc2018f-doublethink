@@ -85,11 +85,11 @@ def fire(arch, flag, arch_shellcode):
 	print "Checking for control..."
 	return success
 
-def input_shellcode():
+def input_shellcode(r=0x1000):
 	global shellcode
 
-	print "Shellcode length:"
-	r = int(raw_input('> ').strip())
+	#print "Shellcode length:"
+	#r = int(raw_input('> ').strip())
 	shellcode = ""
 	print "Shellcode:"
 	while len(shellcode) < r:
