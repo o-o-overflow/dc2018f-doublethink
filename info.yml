@@ -11,8 +11,8 @@ public_files:
 
 # Patch policy
 patch_policy:
-  # Analysis strategy (currently only `tracing`)
-  strategy: tracing
+  # Analysis strategy
+  strategy: size
   # Maximum number of changed bytes across all files
   max_bytes: 5
   # Path whitelist, relative to `service` directory
