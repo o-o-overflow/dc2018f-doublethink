@@ -17,7 +17,7 @@ patch_policy:
   max_bytes: 5
   # Path whitelist, relative to `service` directory
   whitelist:
-    - /src/service.c
+    - /
 
 # All paths relative to the `services` docker container
 flag_location:
@@ -52,13 +52,10 @@ sla_scripts:
 test_scripts:
   - /check.py
 
-
-  
-
 # Service executables and invocation environments
 executables:
   # Path is relative to the `service`
-  - path: /scripts/service
+  - path: /usr/bin/xinetd
     # Invocation assumes that CWD is `service`
-    arguments: ["/scripts/service", "/score"]
-    environment:
+    arguments: ["/usr/sbin/xinetd", "-filelog", "-", "-dontfork", "-f", "/service.conf"]
+    environment: {}
