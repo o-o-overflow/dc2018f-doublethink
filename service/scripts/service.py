@@ -74,7 +74,7 @@ def ooo_testing_postprocess_choice(choice, controlled):
 
 def fire(arch, flag, arch_shellcode):
 	cmd = [
-		os.path.join(os.path.dirname(__file__), 'run.sh'),
+		os.path.join(os.path.dirname(__file__), 'run_emu.sh'),
 		arch,
 	]
 	env = {
