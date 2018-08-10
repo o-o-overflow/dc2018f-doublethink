@@ -23,4 +23,5 @@ COPY platforms /platforms
 COPY fucking-mdk /nonexistent/.mdk
 COPY fucking-usr-mdk /usr/share/mdk
 COPY scripts /scripts
+run touch /score
 CMD ["/usr/sbin/xinetd", "-filelog", "-", "-dontfork", "-f", "/service.conf"]
