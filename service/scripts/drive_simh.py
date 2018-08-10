@@ -195,7 +195,7 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 
 	e = platforms[args.machine](args.flag, args.shellcode)
-	e.emit_flag()
 	e.emit_shellcode()
+	e.emit_flag()
 	e.start()
 	e.quit()
