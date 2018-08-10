@@ -29,8 +29,8 @@ descriptions = {
 shellcode = ""
 
 def choose_arch(controlled):
-	print ""
-	print ""
+	print "[**]"
+	print "[**]"
 
 	num_past = len(available['past'] & set(controlled))
 	num_present = len(available['present'] & set(controlled))
@@ -42,20 +42,20 @@ def choose_arch(controlled):
 	can_choose = set()
 
 	if num_present == 0:
-		print "You cannot control the past without controlling the present, and your influence on the future depends on your influence on the past."
-		print "The party controls all."
-		print "Choose your actions wisely."
-		print "You may attempt to exert control over the following present architectures:", ' '.join(sorted(new_present))
+		print "[**] You cannot control the past without controlling the present, and your influence on the future depends on your influence on the past."
+		print "[**] The party controls all."
+		print "[**] Choose your actions wisely."
+		print "[**] You may attempt to exert control over the following present architectures:", ' '.join(sorted(new_present))
 		can_choose |= new_present
 	elif new_past:
-		print "Since you control the blissful present, you may exert control over doubleplusgood architectures of our past:", ' '.join(sorted(new_past))
+		print "[**] Since you control the blissful present, you may exert control over doubleplusgood architectures of our past:", ' '.join(sorted(new_past))
 		can_choose |= new_past
 
 	if num_present > 0 and num_past > 0 and new_future:
-		print "As you control the gloried past, you may attempt to exert control over the architectures of our bright future:", ' '.join(sorted(new_future))
+		print "[**] As you control the gloried past, you may attempt to exert control over the architectures of our bright future:", ' '.join(sorted(new_future))
 		can_choose |= new_future
 
-	print "What will you control next? "
+	print "[**] What will you control next? "
 	choice = raw_input("> ").strip()
 
 	# this is for thorough testing --- there is no trick here. do not waste your time with this during the CTF
@@ -82,7 +82,7 @@ def fire(arch, flag, arch_shellcode):
 		'SHELLCODE': ''.join(base64.encodestring(arch_shellcode).split())
 	}
 	success = subprocess.Popen(cmd, env=env).wait() == 0
-	print "Checking for control..."
+	print "[**] Checking for control..."
 	return success
 
 def input_shellcode(r=0x1000):
@@ -91,19 +91,19 @@ def input_shellcode(r=0x1000):
 	#print "Shellcode length:"
 	#r = int(raw_input('> ').strip())
 	shellcode = ""
-	print "Shellcode:"
+	print "[**] Shellcode:"
 	while len(shellcode) < r:
 		shellcode += sys.stdin.read(r-len(shellcode))
 
 def main(scorefile):
-	print "Who controls the past controls the future."
-	print "Who controls the present controls the past."
-	print ""
-	print "Take control."
-	print ""
+	print "[**] Who controls the past controls the future."
+	print "[**] Who controls the present controls the past."
+	print "[**]"
+	print "[**] Take control."
+	print "[**]"
 	input_shellcode()
 
-	print "Press enter when ready."
+	print "[**] Press enter when ready."
 	raw_input('> ')
 	flag = "OOO" + ''.join(random.choice(string.digits) for _ in range(10))
 
@@ -112,26 +112,26 @@ def main(scorefile):
 		while len(controlled) < max_control:
 			choice = choose_arch(controlled)
 			if choice and fire(choice, flag, shellcode):
-				print "You have obtained control over %s." % choice
+				print "[**] You have obtained control over %s." % choice
 				controlled.append(choice)
-				print "You control:", ' '.join(controlled)
+				print "[**] You control:", ' '.join(controlled)
 			else:
-				print "You have reached the limits of your control."
+				print "[**] You have reached the limits of your control."
 				break
 		else:
-			print "There is nothing else to control!"
+			print "[**] There is nothing else to control!"
 	except Exception:
-		print "Something went wrong. Big Brother is watching you."
+		print "[**] Something went wrong. Big Brother is watching you."
 
-	print "You achieved control over %d architectures." % len(controlled)
+	print "[**] You achieved control over %d architectures." % len(controlled)
 	if len(controlled) == 0:
-		print "If you want to keep a secret, you must also hide it from yourself."
+		print "[**] If you want to keep a secret, you must also hide it from yourself."
 	elif len(controlled) == 1:
-		print "A lunatic is just a minority of one."
+		print "[**] A lunatic is just a minority of one."
 	elif len(controlled) == 2:
-		print "Doublethink means the power of holding two contradictory beliefs in one's mind simultaneously, and accepting both of them."
+		print "[**] Doublethink means the power of holding two contradictory beliefs in one's mind simultaneously, and accepting both of them."
 	else:
-		print "The Revolution will be complete when the language is perfect."
+		print "[**] The Revolution will be complete when the language is perfect."
 
 	open(scorefile, 'w').write(str(len(controlled)) + '\n' + "Control attained: " + ' '.join(controlled) + '\n')
 

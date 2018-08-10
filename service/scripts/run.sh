@@ -27,11 +27,8 @@ trap 'echo "$GRN[**] Cleaning up...$RST"; rm -rf $TMPDIR' EXIT
 cd $TMPDIR
 chmod 711 .
 echo "$FLAG" > flag
-( echo -n "$SHELLCODE" | base64 -d; dd if=/dev/zero of=/dev/stdout bs=4096 count=1 || true ) | head -c 4096 > shellcode
+( echo -n "$SHELLCODE" | base64 -d; dd if=/dev/zero of=/dev/stdout bs=4096 count=1 2>/dev/null || true ) | head -c 4096 > shellcode
 
-echo
-echo
-echo
 echo "$GRN[**] Running $PLATFORM...$RST"
 script -q result -c "sudo -u nobody SCRIPTDIR=$SCRIPTDIR PLATDIR=$PLATDIR $PLATDIR/run ./flag ./shellcode" &
 sleep 10 &
