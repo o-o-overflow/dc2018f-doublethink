@@ -8,6 +8,7 @@ import string
 import json
 import sys
 import os
+import signal
 
 available = {
 	'past': { 'lgp-30', 'pdp-1', 'pdp-8', 'pdp-10', 'mix', 'ibm-1401', 'nova' },
@@ -141,5 +142,11 @@ def main(scorefile):
 
 	open(scorefile, 'w').write(str(len(controlled)) + '\n' + "Control attained: " + ' '.join(controlled) + '\n')
 
+def timeout_handler(signum, frame):
+    print "timeout!"
+    os.kill(os.getpid(), signal.SIGKILL)
+
 if __name__ == '__main__':
-	main(scorefile=(sys.argv[1] if len(sys.argv) > 1 else '/score'))
+    signal.alarm(240)
+    signal.signal(signal.SIGALRM, timeout_handler)
+    main(scorefile=(sys.argv[1] if len(sys.argv) > 1 else '/score'))
