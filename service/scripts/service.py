@@ -93,7 +93,13 @@ def input_shellcode(r=0x1000):
 	shellcode = ""
 	print "[**] Shellcode:"
 	while len(shellcode) < r:
-		shellcode += sys.stdin.read(r-len(shellcode))
+            d = sys.stdin.read(r-len(shellcode))
+            if len(d) == 0:
+                # it seems that healthcheck connect and disconnect
+                # quickly without sending any data. we have to avoid
+                # infinite read loop
+                sys.exit(0)
+	    shellcode += d
 
 def main(scorefile):
 	print "[**] Who controls the past controls the future."
