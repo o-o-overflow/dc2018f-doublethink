@@ -99,7 +99,7 @@ def input_shellcode(r=0x1000):
                 # quickly without sending any data. we have to avoid
                 # infinite read loop
                 sys.exit(0)
-	    shellcode += d
+            shellcode += d
 
 def main(scorefile):
 	print "[**] Who controls the past controls the future."
