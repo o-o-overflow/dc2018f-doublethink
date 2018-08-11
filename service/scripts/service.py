@@ -8,6 +8,7 @@ import string
 import json
 import sys
 import os
+import signal
 
 available = {
 	'past': { 'lgp-30', 'pdp-1', 'pdp-8', 'pdp-10', 'mix', 'ibm-1401', 'nova' },
@@ -93,7 +94,13 @@ def input_shellcode(r=0x1000):
 	shellcode = ""
 	print "[**] Shellcode:"
 	while len(shellcode) < r:
-		shellcode += sys.stdin.read(r-len(shellcode))
+            d = sys.stdin.read(r-len(shellcode))
+            if len(d) == 0:
+                # it seems that healthcheck connect and disconnect
+                # quickly without sending any data. we have to avoid
+                # infinite read loop
+                sys.exit(0)
+            shellcode += d
 
 def main(scorefile):
 	print "[**] Who controls the past controls the future."
@@ -135,5 +142,11 @@ def main(scorefile):
 
 	open(scorefile, 'w').write(str(len(controlled)) + '\n' + "Control attained: " + ' '.join(controlled) + '\n')
 
+def timeout_handler(signum, frame):
+    print "timeout!"
+    os.kill(os.getpid(), signal.SIGKILL)
+
 if __name__ == '__main__':
-	main(scorefile=(sys.argv[1] if len(sys.argv) > 1 else '/score'))
+    signal.alarm(240)
+    signal.signal(signal.SIGALRM, timeout_handler)
+    main(scorefile=(sys.argv[1] if len(sys.argv) > 1 else '/score'))
